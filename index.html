@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Etch A Sketch</title>
+	<style>
+		html {
+		    box-sizing: border-box;
+		}
+		*, *:before, *:after {
+		    box-sizing: inherit;
+		}
+
+		body {
+			padding-top: 50px;
+		}
+
+		#clear {
+			font-size: 1.5rem;
+			display: block;
+			background-color: gold;
+			border: 2px solid black;
+			padding: 5px;
+
+		}
+
+		.grid, #clear {
+			width: 500px;
+			margin: 5px auto;
+		}
+
+		.grid {
+			border: 1px solid black;
+		}
+
+		.grid:after {
+			content: "";
+			display: block;
+			clear: both;
+		}
+
+		.box {
+			border: 1px solid black;
+			float: left;
+		}
+	</style>
+</head>
+<body>
+	<button id="clear">Clear the grid</button>
+	<script>
+		const grid = document.createElement('div');
+		grid.classList.add('grid');
+
+		function generateBoxes(length) {
+			for (let i = 1; i <= length*length; i++) {
+				let box = document.createElement('div');
+				box.classList.add('box')
+				boxDimension = `${100/length}%`
+				box.style.width = box.style.paddingTop = boxDimension;
+				box.dataset.place = i;
+
+				grid.appendChild(box);
+			}
+
+			document.body.appendChild(grid);
+		}
+
+		function deleteBoxes() {
+			document.querySelector('.grid').innerHTML = '';
+		}
+
+		generateBoxes(16);
+
+		document.body.addEventListener('mouseover', (e) => {
+			if (e.target.classList.contains('box')) {
+				e.target.style.backgroundColor	= 'blue';			
+			}
+		});
+
+		const clearButton = document.querySelector('#clear');
+
+		clearButton.addEventListener('click', () => {
+			deleteBoxes();
+			length = prompt('Enter the number of squares per side to make the new grid below');
+			generateBoxes(length ? length : 16);
+		});
+	</script>
+</body>
+</html>
